@@ -19,7 +19,6 @@ export function ChatInput() {
       });
 
       for await (const textPart of readStreamableValue(textStream)) {
-        console.log(textPart);
         proxyChat.textStream = proxyChat.textStream + textPart;
       }
 

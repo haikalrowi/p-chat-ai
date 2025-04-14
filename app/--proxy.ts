@@ -9,18 +9,7 @@ export const proxyChat = proxy<{
   textInput: string;
   textStream: string;
 }>({
-  list: [
-    {
-      id: `${Math.random()}`,
-      from: "user",
-      message: "Hi!",
-    },
-    {
-      id: `${Math.random()}`,
-      from: "ai",
-      message: "Hello!",
-    },
-  ],
+  list: [],
   textInput: "",
   textStream: "",
 });
