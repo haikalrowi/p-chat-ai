@@ -7,12 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "shadcn--add": "shadcn add popover"
+    "shadcn--add": "shadcn add scroll-area"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.10",
     "@radix-ui/react-dropdown-menu": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.7",
+    "@radix-ui/react-scroll-area": "^1.2.4",
     "@radix-ui/react-slot": "^1.2.0",
     "ai": "^4.3.5",
     "class-variance-authority": "^0.7.1",

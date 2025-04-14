@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 export function ChatListCard({
   arg,
@@ -11,11 +10,14 @@ export function ChatListCard({
 }) {
   const { from, message } = arg;
 
-  return (
-    <Card className={cn({ user: "ml-16", ai: "mr-16" }[from])}>
-      <CardContent>
-        <p>{message}</p>
-      </CardContent>
-    </Card>
-  );
+  return {
+    user: (
+      <Card className="ml-16">
+        <CardContent>
+          <p>{message}</p>
+        </CardContent>
+      </Card>
+    ),
+    ai: <p>{message}</p>,
+  }[from];
 }

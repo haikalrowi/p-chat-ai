@@ -8,7 +8,7 @@ export function ChatList() {
   const { list, textInput, textStream } = useSnapshot(proxyChat);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       {list.map((chat, index) => (
         <ChatListCard
           arg={{ from: chat.from, message: chat.message }}
