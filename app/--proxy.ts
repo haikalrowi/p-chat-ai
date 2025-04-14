@@ -6,6 +6,8 @@ export const proxyChat = proxy<{
     from: "user" | "ai";
     message: string;
   }[];
+  textInput: string;
+  textStream: string;
 }>({
   list: [
     {
@@ -19,4 +21,6 @@ export const proxyChat = proxy<{
       message: "Hello!",
     },
   ],
+  textInput: "",
+  textStream: "",
 });

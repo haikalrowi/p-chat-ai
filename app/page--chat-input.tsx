@@ -2,29 +2,43 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { readStreamableValue } from "ai/rsc";
 import { Send } from "lucide-react";
 import { useActionState, useRef } from "react";
 import { actionChatSend } from "./--action";
 import { proxyChat } from "./--proxy";
 
 export function ChatInput() {
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { "1": chatActionDispatch, "2": chatActionIsPending } = useActionState(
     async () => {
-      await actionChatSend();
+      proxyChat.textInput = `${inputRef.current?.value}`;
+
+      const textStream = await actionChatSend({
+        arg: { input: proxyChat.textInput },
+      });
+
+      for await (const textPart of readStreamableValue(textStream)) {
+        console.log(textPart);
+        proxyChat.textStream = proxyChat.textStream + textPart;
+      }
+
       proxyChat.list = [
         ...proxyChat.list,
-        { id: `${Math.random()}`, from: "user", message: "1" },
-        { id: `${Math.random()}`, from: "ai", message: "2" },
+        { id: `${Math.random()}`, from: "user", message: proxyChat.textInput },
+        { id: `${Math.random()}`, from: "ai", message: proxyChat.textStream },
       ];
+
+      proxyChat.textInput = "";
+      proxyChat.textStream = "";
     },
     null,
   );
 
   return (
     <form action={chatActionDispatch} className="flex flex-1">
-      <Input />
-      <Button className="ml-2" disabled={chatActionIsPending}>
+      <Input required disabled={chatActionIsPending} ref={inputRef} />
+      <Button disabled={chatActionIsPending} className="ml-2">
         <Send /> Send
       </Button>
     </form>
