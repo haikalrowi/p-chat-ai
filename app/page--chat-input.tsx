@@ -7,7 +7,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { mdToHtml } from "@/lib/md-to-html";
 import { readStreamableValue } from "ai/rsc";
 import { MoreHorizontal, Send } from "lucide-react";
 import { useActionState, useRef } from "react";
@@ -20,11 +19,10 @@ export function ChatInput() {
   const { "1": chatActionDispatch, "2": chatActionIsPending } = useActionState(
     async () => {
       if (inputRef.current) {
-        const inputValue = inputRef.current.value;
+        proxyChat.textInput = inputRef.current.value;
+
         inputRef.current.value = "";
         inputRef.current.style.height = "auto";
-
-        proxyChat.textInput = `${mdToHtml.processSync(inputValue)}`;
 
         const textStream = await actionChatSend({
           arg: {
@@ -35,16 +33,14 @@ export function ChatInput() {
               })),
               {
                 role: "user",
-                content: inputValue,
+                content: proxyChat.textInput,
               },
             ],
           },
         });
 
-        let textStreamRaw = "";
         for await (const textPart of readStreamableValue(textStream)) {
-          textStreamRaw = `${textStreamRaw}${textPart}`;
-          proxyChat.textStream = `${mdToHtml.processSync(textStreamRaw)}`;
+          proxyChat.textStream = `${proxyChat.textStream}${textPart}`;
         }
 
         proxyChat.list = [
