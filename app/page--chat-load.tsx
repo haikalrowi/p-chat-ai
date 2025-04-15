@@ -16,7 +16,7 @@ export function ChatLoad() {
         list: z.array(
           z.object({
             id: z.string(),
-            from: z.enum(["system", "user", "ai"]),
+            from: z.enum(["user", "ai"]),
             message: z.string(),
           }),
         ),
