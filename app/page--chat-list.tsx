@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Loader2, Pencil } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useSnapshot } from "valtio";
 import { proxyChat } from "./--proxy";
@@ -25,6 +27,12 @@ export function ChatList() {
       ))}
       {textInput && <ChatListCard arg={{ from: "user", message: textInput }} />}
       {textStream && <ChatListCard arg={{ from: "ai", message: textStream }} />}
+      {textInput && (
+        <Button variant="ghost">
+          {!textStream && <Loader2 className="animate-spin" />}
+          {textStream && <Pencil className="animate-pulse" />}
+        </Button>
+      )}
       <div ref={viewRef} className="h-30" />
     </div>
   );
