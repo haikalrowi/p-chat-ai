@@ -24,7 +24,18 @@ export function ChatInput() {
         inputRef.current.style.height = "auto";
 
         const textStream = await actionChatSend({
-          arg: { input: proxyChat.textInput },
+          arg: {
+            messages: [
+              ...proxyChat.list.map((chat) => ({
+                role: ({ user: "user", ai: "assistant" } as const)[chat.from],
+                content: chat.message,
+              })),
+              {
+                role: "user",
+                content: proxyChat.textInput,
+              },
+            ],
+          },
         });
 
         for await (const textPart of readStreamableValue(textStream)) {

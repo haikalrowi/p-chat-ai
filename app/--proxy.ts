@@ -3,7 +3,7 @@ import { proxy } from "valtio";
 export const proxyChat = proxy<{
   list: {
     id: string;
-    from: "system" | "user" | "ai";
+    from: "user" | "ai";
     message: string;
   }[];
   textInput: string;
