@@ -23,10 +23,20 @@ export function ChatListCard({
     user: (
       <Card className="ml-auto w-full max-w-prose">
         <CardContent>
-          <p>{message}</p>
+          <div
+            className="prose prose-zinc dark:prose-invert"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
         </CardContent>
       </Card>
     ),
-    ai: <p className="mr-auto w-full max-w-prose">{message}</p>,
+    ai: (
+      <div className="mr-auto w-full max-w-prose">
+        <div
+          className="prose prose-zinc dark:prose-invert"
+          dangerouslySetInnerHTML={{ __html: message }}
+        />
+      </div>
+    ),
   }[from];
 }
