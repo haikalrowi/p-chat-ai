@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "shadcn--add": "shadcn add scroll-area"
+    "shadcn--add": "shadcn add textarea"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.10",

@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="scroll-smooth antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
