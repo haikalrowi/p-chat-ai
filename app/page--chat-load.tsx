@@ -16,7 +16,7 @@ export function ChatLoad() {
         list: z.array(
           z.object({
             id: z.string(),
-            from: z.enum(["user", "ai"]),
+            from: z.enum(["system", "user", "ai"]),
             message: z.string(),
           }),
         ),
@@ -25,24 +25,7 @@ export function ChatLoad() {
       })
       .safeParse(JSON.parse(`${localStorage.getItem("proxy--chat")}`));
 
-    proxyChat.list = [
-      ...(data?.list || [
-        {
-          id: `${Math.random()}`,
-          from: "user",
-          message: "Hi!",
-        },
-        {
-          id: `${Math.random()}`,
-          from: "ai",
-          message: "Hello!",
-        },
-      ]),
-    ];
-
-    proxyChat.textInput = data?.textInput || "";
-
-    proxyChat.textStream = data?.textStream || "";
+    proxyChat.list = data?.list || proxyChat.list;
 
     return () => {
       unsubscribe();

@@ -18,24 +18,31 @@ export function ChatInput() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { "1": chatActionDispatch, "2": chatActionIsPending } = useActionState(
     async () => {
-      proxyChat.textInput = `${inputRef.current?.value}`;
+      if (inputRef.current) {
+        proxyChat.textInput = inputRef.current.value;
+        inputRef.current.value = "";
+        inputRef.current.style.height = "auto";
 
-      const textStream = await actionChatSend({
-        arg: { input: proxyChat.textInput },
-      });
+        const textStream = await actionChatSend({
+          arg: { input: proxyChat.textInput },
+        });
 
-      for await (const textPart of readStreamableValue(textStream)) {
-        proxyChat.textStream = proxyChat.textStream + textPart;
+        for await (const textPart of readStreamableValue(textStream)) {
+          proxyChat.textStream = `${proxyChat.textStream}${textPart}`;
+        }
+
+        proxyChat.list = [
+          ...proxyChat.list,
+          {
+            id: `${Math.random()}`,
+            from: "user",
+            message: proxyChat.textInput,
+          },
+          { id: `${Math.random()}`, from: "ai", message: proxyChat.textStream },
+        ];
+        proxyChat.textInput = "";
+        proxyChat.textStream = "";
       }
-
-      proxyChat.list = [
-        ...proxyChat.list,
-        { id: `${Math.random()}`, from: "user", message: proxyChat.textInput },
-        { id: `${Math.random()}`, from: "ai", message: proxyChat.textStream },
-      ];
-
-      proxyChat.textInput = "";
-      proxyChat.textStream = "";
     },
     null,
   );
@@ -44,7 +51,7 @@ export function ChatInput() {
     e,
   ) => {
     e.currentTarget.style.height = "auto";
-    e.currentTarget.style.height = `${e.currentTarget.scrollHeight + 4}px`;
+    e.currentTarget.style.height = `${e.currentTarget.scrollHeight + 1}px`;
   };
 
   const enterToSend: React.ComponentProps<"textarea">["onKeyDown"] = (e) => {
@@ -55,7 +62,7 @@ export function ChatInput() {
   };
 
   return (
-    <form action={chatActionDispatch} className="relative flex-1">
+    <form action={chatActionDispatch} className="relative">
       <Popover>
         <PopoverTrigger
           className={buttonVariants({
@@ -75,7 +82,7 @@ export function ChatInput() {
         onInput={resizeAutomatically}
         onKeyDown={enterToSend}
         required
-        disabled={chatActionIsPending}
+        readOnly={chatActionIsPending}
         ref={inputRef}
         autoFocus
         className="max-h-48 min-h-24 pr-12"

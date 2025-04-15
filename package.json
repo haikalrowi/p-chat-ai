@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "shadcn--add": "shadcn add textarea"
+    "shadcn--add": "shadcn add alert"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.10",

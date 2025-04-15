@@ -1,18 +1,18 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatInput } from "./page--chat-input";
 import { ChatList } from "./page--chat-list";
 import { ChatLoad } from "./page--chat-load";
 
 export default function Page() {
   return (
-    <div className="container mx-auto flex h-dvh flex-col">
+    <div className="m-4">
       <ChatLoad />
 
-      <ScrollArea className="flex-1 overflow-auto p-8">
-        <ChatList />
-      </ScrollArea>
-      <div className="p-8">
-        <ChatInput />
+      <ChatList />
+
+      <div className="absolute right-4 bottom-4 left-4">
+        <div className="container mx-auto backdrop-blur-md backdrop-contrast-130">
+          <ChatInput />
+        </div>
       </div>
     </div>
   );

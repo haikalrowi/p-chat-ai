@@ -13,7 +13,10 @@ export function ChatList() {
   }, [list, textInput, textStream]);
 
   return (
-    <div className="space-y-8">
+    <div className="container mx-auto space-y-4">
+      {list.length === 0 && (
+        <ChatListCard arg={{ from: "system", message: "Start chatting." }} />
+      )}
       {list.map((chat, index) => (
         <ChatListCard
           arg={{ from: chat.from, message: chat.message }}
@@ -22,7 +25,7 @@ export function ChatList() {
       ))}
       {textInput && <ChatListCard arg={{ from: "user", message: textInput }} />}
       {textStream && <ChatListCard arg={{ from: "ai", message: textStream }} />}
-      <div ref={viewRef} />
+      <div ref={viewRef} className="h-30" />
     </div>
   );
 }
